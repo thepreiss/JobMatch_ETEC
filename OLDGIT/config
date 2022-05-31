@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "develop"]
+	url = https://github.com/thepreiss/JobMatch.git
+	fetch = +refs/heads/*:refs/remotes/develop/*
+[branch "main"]
+	remote = develop
+	merge = refs/heads/main
