@@ -1,37 +1,20 @@
 import { DataT } from "../../types";
 import IMAGE_01 from "../images/01.jpg";
-import IMAGE_02 from "../images/02.jpg";
-import IMAGE_03 from "../images/03.jpg";
 
-const data: DataT[] = [
+let data: DataT[] = [
   {
     id: 1,
-    name: "Assistente de manutenção de computadores e máquinas de escrever",
-    match: "78",
+    name: "Servidor inacessível",
+    match: "0",
     description:
-      "Tecnolgia",
+      "Verifique sua conexão",
     message:
-      "Irá atuar com manutenção de equipamentos de informática e zelar pelo bom funcionamento.",
+      "Se sua conexão estiver operacional, acione o administrador.",
+    info1: "Não disponível",
+    info2: "Não disponível",
+    info3: "Não disponível",
+    info5: "Não disponível",
     image: IMAGE_01,
-  },
-  {
-    id: 2,
-    name: "Gerente de compras",
-    match: "10",
-    description:
-      "Administrativa",
-    message: "Gerenciar as compras.",
-    image: IMAGE_02,
-  },
-  {
-    id: 3,
-    name: "Cantor",
-    match: "100",
-    description:
-      "Artística",
-    message:
-      "Responsável por cantar e encantar.",
-    image: IMAGE_03,
   },
 ];
 

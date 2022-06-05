@@ -1,8 +1,8 @@
 export type CardItemT = {
   description?: string;
-  hasActions?: boolean;
+  hasActions: boolean;
   hasVariant?: boolean;
-  image: any;
+  image?: any;
   matches?: string;
   name: string;
 };
@@ -43,9 +43,22 @@ export type DataT = {
   age? : string;
   match?: string;
   location? : string;
-  description: string;
+  description?: string;
   message?: string;
   image: any;
+  info1?: string;
+  info2?: string;
+  info3?: string;
+  info4?: string;
+  info5?: string;
+};
+
+export type DataC = {
+  name: string;
+  match?: string;
+  description: string;
+  message?: string;
+  image?: any;
   info1?: string;
   info2?: string;
   info3?: string;

@@ -54,7 +54,7 @@ const CardItem = ({
       {/* DESCRIPTION */}
       <Text></Text>
       <Text style={styles.descriptionCardItem}>
-          Área: {description}
+          {description? "Área: "+ description : description}
       </Text>
 
       {/* NAME */}
