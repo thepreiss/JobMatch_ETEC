@@ -13,14 +13,12 @@ import styles, { WHITE } from "../assets/styles";
 
 const Profile = () => {
   const {
-    age,
     image,
     info1,
     info2,
     info3,
     info4,
     info5,
-    location,
     name,
   } = Persons[0];
 
@@ -46,8 +44,6 @@ const Profile = () => {
 
         <ProfileItem
           name={name}
-          age={age}
-          location={location}
           info1={info1}
           info2={info2}
           info3={info3}

@@ -1,12 +1,10 @@
-import { DataT } from "../../types";
+import { DataP } from "../../types";
 import IMAGE_PROFILE from "../images/profile.jpg";
 
-const persons: DataT[] = [
+const persons: DataP[] = [
   {
     id: 1,
     name: "Erasmo Carlos",
-    age: "25",
-    location: "Hortolândia / SP",
     description:
       "Full-time Traveller. Globe Trotter. Occasional Photographer. Part time Singer/Dancer.",
     info1: 'Nativo: Português / Francês / Inglês\nAvançado: Espanhol\nBásico: Italiano',

@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, ImageBackground } from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
 import { CardItem } from "../components";
 import styles from "../assets/styles";
 import IMAGE_NOJOBS from "../assets/images/noJobs.jpg";
-import Jobs from "../assets/data/jobs";
+import api from "../assets/services/api";
+import { AxiosResponse } from 'axios';
+import { DataT } from "../types";
+
 
 const Home = () => {
   const [swiper, setSwiper] = useState<CardStack | null>(null);
+  const [listCard, setListCard] = useState([]);
+
+  useEffect(() => {
+    api.get("/getCards").then((response: AxiosResponse) => {
+      setListCard(response.data);
+    });
+  }, []);
 
   return (
       <ImageBackground
@@ -32,14 +42,14 @@ const Home = () => {
           }
             ref={(newSwiper): void => setSwiper(newSwiper)}
           >
-            {Jobs.map((item) => (
-              <Card key={item.id}>
+            {listCard.map((job: DataT) => (
+              <Card key={"" + job.idPosition}>
                 <CardItem
                   hasActions
-                  image={item.image}
-                  name={item.name}
-                  description={item.description}
-                  matches={item.match}
+                  image={{uri: job.landscapeLink}}
+                  name={job.name}
+                  description={job.description}
+                  matches={job.match}
                 />
               </Card>
             ))}
