@@ -38,6 +38,20 @@ const App = () => (
               },
             }}
           >
+          <Tab.Screen
+              name="Profile"
+              component={Profile}
+              options={{
+                tabBarIcon: ({ focused }) => (
+                  <TabBarIcon
+                    focused={focused}
+                    iconName="person"
+                    text="Perfil"
+                  />
+                ),
+              }}
+            />
+
             <Tab.Screen
               name="Explore"
               component={Home}
@@ -66,19 +80,6 @@ const App = () => (
               }}
             />
 
-            <Tab.Screen
-              name="Profile"
-              component={Profile}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <TabBarIcon
-                    focused={focused}
-                    iconName="person"
-                    text="Perfil"
-                  />
-                ),
-              }}
-            />
           </Tab.Navigator>
         )}
       </Stack.Screen>
