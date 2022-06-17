@@ -1,18 +1,17 @@
 import { DataP } from "../../types";
-import IMAGE_PROFILE from "../images/profile.jpg";
 
 const persons: DataP[] = [
   {
     id: 1,
-    name: "Erasmo Carlos",
+    name: "Clique para cadastrar",
     description:
-      "Full-time Traveller. Globe Trotter. Occasional Photographer. Part time Singer/Dancer.",
-    info1: 'Nativo: Português / Francês / Inglês\nAvançado: Espanhol\nBásico: Italiano',
-    info2: 'Mestrado: Contas públicas\nBacharel: Finanças\nTécnico: Administração\nEnsino médio: Completo',
-    info3: '8 anos: Executivo\n1 ano: Trainee compras',
-    info4: 'Agile\nCertificado de câmbio',
-    info5: 'Comunicativo(a)\nResiliente',
-    image: IMAGE_PROFILE,
+      "Clique para cadastrar",
+    info1: 'Clique para cadastrar',
+    info2: 'Clique para cadastrar',
+    info3: 'Clique para cadastrar',
+    info4: 'Clique para cadastrar',
+    info5: 'Clique para cadastrar',
+    image: "https://images2.imgbox.com/7d/6a/ZkZefOT8_o.png",
   },
 ];
 

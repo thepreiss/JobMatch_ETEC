@@ -1,17 +1,15 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, Button } from "react-native";
 import Icon from "./Icon";
 import { ProfileItemT } from "../types";
 import styles, { DARK_GRAY, WHITE } from "../assets/styles";
 
 const ProfileItem = ({
-  age,
   info1,
   info2,
   info3,
   info4,
   info5,
-  location,
   name,
 }: ProfileItemT) => (
   <View style={styles.containerProfileItem}>
@@ -20,10 +18,6 @@ const ProfileItem = ({
         {name}
       </Text>
     </View>
-
-    <Text style={styles.descriptionProfileItem}>
-      {age} - {location}
-    </Text>
 
     <View style={styles.info}>
       <Text style={styles.iconProfile}>

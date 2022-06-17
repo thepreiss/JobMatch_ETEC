@@ -17,6 +17,37 @@ export const DIMENSION_WIDTH = Dimensions.get("window").width;
 export const DIMENSION_HEIGHT = Dimensions.get("window").height;
 
 export default StyleSheet.create({
+
+  picker: {
+    marginVertical: 30,
+    width: 300,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#666",
+  },
+
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+
+  buttonOpen: {
+    backgroundColor: '#1a1eed',
+    padding: 20,
+    borderRadius: 5,
+  },
+  buttonOpenGreen: {
+    backgroundColor: '#19E422',
+    padding: 20,
+    borderRadius: 5,
+  },
+  buttonOpenRed: {
+    backgroundColor: '#E00E0E',
+    padding: 20,
+    borderRadius: 5,
+  },
   // COMPONENT - CARD ITEM
   containerCardItem: {
     backgroundColor: WHITE,
@@ -299,7 +330,7 @@ export default StyleSheet.create({
     elevation: 5
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#PRIMARY_COLOR",
   },
   textStyle: {
     color: "white",

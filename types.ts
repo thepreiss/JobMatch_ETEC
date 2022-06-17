@@ -57,7 +57,7 @@ export type DataP = {
   match?: string;
   description: string;
   message?: string;
-  image?: any;
+  image: string;
   info1?: string;
   info2?: string;
   info3?: string;
