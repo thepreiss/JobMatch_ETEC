@@ -32,6 +32,11 @@ const Profile = () => {
   const [modalMoreExperiencesVisible, setModalMoreExperiencesVisible] = useState(false);
   const [modalExperience2Visible, setModalExperience2Visible] = useState(false);
   const [modalExperience3Visible, setModalExperience3Visible] = useState(false);
+  const [modalSoftSkill1Visible, setModalSoftSkill1Visible] = useState(false);
+  const [modalMoreSoftSkillsVisible, setModalMoreSoftSkillsVisible] = useState(false);
+  const [modalSoftSkill2Visible, setModalSoftSkill2Visible] = useState(false);
+  const [modalSoftSkill3Visible, setModalSoftSkill3Visible] = useState(false);
+  const [modalEndVisible, setModalEndVisible] = useState(false);
 
   const [name, setName] = useState();
   const [scholarity, setScholarity] = useState('Unknown');
@@ -255,6 +260,7 @@ const Profile = () => {
               style={styles.buttonOpenRed}
               onPress={() => {
                   setModalMoreLanguagesVisible(false);
+                  setModalExperience1Visible(true);
                 }
               }>
               <Text style={styles.textStyle}>Não</Text>
@@ -363,10 +369,430 @@ const Profile = () => {
                     ]);
                   } else {
                     setModalLanguage3Visible(false);
+                    setModalExperience1Visible(true);
                   }
                 }
               }>
               <Text style={styles.textStyle}>Avançar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalExperience1Visible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você possui experiência em alguma das áreas listadas? Você pode indicar até 3.</Text>
+            <Picker
+              selectedValue={experience1}
+              onValueChange={(value, index) => setExperience1(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione a área" value="Unknown" />
+              <Picker.Item label="Administração" value="Administração" />
+              <Picker.Item label="Desenvolvimento de Software" value="Desenvolvimento de Software" />
+              <Picker.Item label="Recursos Humanos" value="Recursos Humanos" />
+              <Picker.Item label="Gestão de pessoas" value="Gestão de pessoas" />
+              <Picker.Item label="Operacional" value="Operacional" />
+              <Picker.Item label="Serviços de TI" value="Serviços de TI" />
+              <Picker.Item label="Ensino" value="Ensino" />
+              <Picker.Item label="Sem experiência" value="Nenhuma" />
+            </Picker>
+            <Picker
+              selectedValue={experience1Time}
+              onValueChange={(value, index) => setExperience1Time(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione quantos anos de experiência" value="Unknown" />
+              <Picker.Item label="Até 1 ano" value="1" />
+              <Picker.Item label="Até 3 anos" value="3" />
+              <Picker.Item label="Até 5 anos" value="5" />
+              <Picker.Item label="Mais de 5 anos" value="6" />
+            </Picker>
+            <Pressable
+              style={styles.buttonOpen}
+              onPress={() => {
+                if (experience1 == "Unknown" || experience1Time == "Unknown") {
+                    Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
+                      {
+                        text: 'OK',
+                        style: 'ok',
+                      },
+                    ]);
+                  } else {
+                    setModalExperience1Visible(false);
+                    setModalMoreExperiencesVisible(true);
+                  }
+                }
+              }>
+              <Text style={styles.textStyle}>Avançar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalMoreExperiencesVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você deseja cadastrar mais outra experiência?</Text>
+            <Pressable
+              style={styles.buttonOpenGreen}
+              onPress={() => {
+                setmodalMoreExperiencesVisible(false);
+                  if(experience2 != undefined) {
+                    setModalExperience3Visible(true);
+                  } else {
+                    setModalExperience2Visible(true);
+                  }                  
+                }
+              }>
+              <Text style={styles.textStyle}>Sim</Text>
+            </Pressable>
+            <Pressable
+              style={styles.buttonOpenRed}
+              onPress={() => {
+                  setModalMoreExperiencesVisible(false);
+                  setModalSoftSkill1Visible(true);
+                }
+              }>
+              <Text style={styles.textStyle}>Não</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalExperience2Visible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você possui experiência em alguma das áreas listadas?</Text>
+            <Picker
+              selectedValue={experience2}
+              onValueChange={(value, index) => setExperience2(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione a área" value="Unknown" />
+              <Picker.Item label="Administração" value="Administração" />
+              <Picker.Item label="Desenvolvimento de Software" value="Desenvolvimento de Software" />
+              <Picker.Item label="Recursos Humanos" value="Recursos Humanos" />
+              <Picker.Item label="Gestão de pessoas" value="Gestão de pessoas" />
+              <Picker.Item label="Operacional" value="Operacional" />
+              <Picker.Item label="Serviços de TI" value="Serviços de TI" />
+              <Picker.Item label="Ensino" value="Ensino" />
+            </Picker>
+            <Picker
+              selectedValue={experience2Time}
+              onValueChange={(value, index) => setExperience2Time(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione quantos anos de experiência" value="Unknown" />
+              <Picker.Item label="Até 1 ano" value="1" />
+              <Picker.Item label="Até 3 anos" value="3" />
+              <Picker.Item label="Até 5 anos" value="5" />
+              <Picker.Item label="Mais de 5 anos" value="6" />
+            </Picker>
+            <Pressable
+              style={styles.buttonOpen}
+              onPress={() => {
+                if (experience2 == "Unknown" || experience2Time == "Unknown") {
+                    Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
+                      {
+                        text: 'OK',
+                        style: 'ok',
+                      },
+                    ]);
+                  } else {
+                    setModalExperience2Visible(false);
+                    setModalMoreExperiencesVisible(true);
+                  }
+                }
+              }>
+              <Text style={styles.textStyle}>Avançar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalExperience3Visible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você possui experiência em alguma das áreas listadas?</Text>
+            <Picker
+              selectedValue={experience3}
+              onValueChange={(value, index) => setExperience3(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione a área" value="Unknown" />
+              <Picker.Item label="Administração" value="Administração" />
+              <Picker.Item label="Desenvolvimento de Software" value="Desenvolvimento de Software" />
+              <Picker.Item label="Recursos Humanos" value="Recursos Humanos" />
+              <Picker.Item label="Gestão de pessoas" value="Gestão de pessoas" />
+              <Picker.Item label="Operacional" value="Operacional" />
+              <Picker.Item label="Serviços de TI" value="Serviços de TI" />
+              <Picker.Item label="Ensino" value="Ensino" />
+            </Picker>
+            <Picker
+              selectedValue={experience3Time}
+              onValueChange={(value, index) => setExperience3Time(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione quantos anos de experiência" value="Unknown" />
+              <Picker.Item label="Até 1 ano" value="1" />
+              <Picker.Item label="Até 3 anos" value="3" />
+              <Picker.Item label="Até 5 anos" value="5" />
+              <Picker.Item label="Mais de 5 anos" value="6" />
+            </Picker>
+            <Pressable
+              style={styles.buttonOpen}
+              onPress={() => {
+                if (experience3 == "Unknown" || experience3Time == "Unknown") {
+                    Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
+                      {
+                        text: 'OK',
+                        style: 'ok',
+                      },
+                    ]);
+                  } else {
+                    setModalExperience3Visible(false);
+                    setModalSoftSkill1Visible(true);
+                  }
+                }
+              }>
+              <Text style={styles.textStyle}>Avançar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalSoftSkill1Visible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você possui alguma das SoftSkills listadas? Você pode indicar até 3.</Text>
+            <Picker
+              selectedValue={softSkill1}
+              onValueChange={(value, index) => setSoftSkill1(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione a skill" value="Unknown" />
+              <Picker.Item label="Inteligência Emocional" value="Inteligência Emocional" />
+              <Picker.Item label="Comunicação" value="Comunicação" />
+              <Picker.Item label="Gestão do tempo" value="Gestão do tempo" />
+              <Picker.Item label="Liderança" value="Liderança" />
+              <Picker.Item label="Flexibilidade e adaptabilidade" value="Flexibilidade e adaptabilidade" />
+              <Picker.Item label="Trabalho em equipe" value="Trabalho em equipe" />
+              <Picker.Item label="Espírito empreendedor" value="Espírito empreendedor" />
+              <Picker.Item label="Sem skill" value="Nenhuma" />
+            </Picker>
+            <Picker
+              selectedValue={softSkill1Level}
+              onValueChange={(value, index) => setSoftSkill1Level(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione qual seu nível de habilidade" value="Unknown" />
+              <Picker.Item label="Nível 1" value="1" />
+              <Picker.Item label="Nível 2" value="2" />
+              <Picker.Item label="Nível 3" value="3" />
+              <Picker.Item label="Nível 4" value="4" />
+              <Picker.Item label="Nível 5" value="5" />
+            </Picker>
+            <Pressable
+              style={styles.buttonOpen}
+              onPress={() => {
+                if (softSkill1 == "Unknown" || softSkill1Level == "Unknown") {
+                    Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
+                      {
+                        text: 'OK',
+                        style: 'ok',
+                      },
+                    ]);
+                  } else {
+                    setModalSoftSkill1Visible(false);
+                    setModalMoreSoftSkillsVisible(true);
+                  }
+                }
+              }>
+              <Text style={styles.textStyle}>Avançar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalMoreSoftSkillsVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você deseja cadastrar mais outra SoftSkill?</Text>
+            <Pressable
+              style={styles.buttonOpenGreen}
+              onPress={() => {
+                setModalMoreSoftSkillsVisible(false);
+                  if(softSkill2 != undefined) {
+                    setModalSoftSkill3Visible(true);
+                  } else {
+                    setModalSoftSkill2Visible(true);
+                  }                  
+                }
+              }>
+              <Text style={styles.textStyle}>Sim</Text>
+            </Pressable>
+            <Pressable
+              style={styles.buttonOpenRed}
+              onPress={() => {
+                  setModalMoreSoftSkillsVisible(false);
+                  Alert.alert('Cadastro concluído!', 'Você concluiu o registro e poderá utilizar o aplicativo.', [
+                    {
+                      text: 'Legal!',
+                      style: 'ok',
+                    },
+                  ]);
+                }
+              }>
+              <Text style={styles.textStyle}>Não</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalSoftSkill2Visible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você possui alguma das SoftSkills listadas?</Text>
+            <Picker
+              selectedValue={softSkill2}
+              onValueChange={(value, index) => setSoftSkill2(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione a skill" value="Unknown" />
+              <Picker.Item label="Inteligência Emocional" value="Inteligência Emocional" />
+              <Picker.Item label="Comunicação" value="Comunicação" />
+              <Picker.Item label="Gestão do tempo" value="Gestão do tempo" />
+              <Picker.Item label="Liderança" value="Liderança" />
+              <Picker.Item label="Flexibilidade e adaptabilidade" value="Flexibilidade e adaptabilidade" />
+              <Picker.Item label="Trabalho em equipe" value="Trabalho em equipe" />
+              <Picker.Item label="Espírito empreendedor" value="Espírito empreendedor" />
+              <Picker.Item label="Sem skill" value="Nenhuma" />
+            </Picker>
+            <Picker
+              selectedValue={softSkill2Level}
+              onValueChange={(value, index) => setSoftSkill2Level(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione qual seu nível de habilidade" value="Unknown" />
+              <Picker.Item label="Nível 1" value="1" />
+              <Picker.Item label="Nível 2" value="2" />
+              <Picker.Item label="Nível 3" value="3" />
+              <Picker.Item label="Nível 4" value="4" />
+              <Picker.Item label="Nível 5" value="5" />
+            </Picker>
+            <Pressable
+              style={styles.buttonOpen}
+              onPress={() => {
+                if (softSkill2 == "Unknown" || softSkill2Level == "Unknown") {
+                    Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
+                      {
+                        text: 'OK',
+                        style: 'ok',
+                      },
+                    ]);
+                  } else {
+                    setModalSoftSkill2Visible(false);
+                    setModalMoreSoftSkillsVisible(true);
+                  }
+                }
+              }>
+              <Text style={styles.textStyle}>Avançar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalSoftSkill3Visible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você possui alguma das SoftSkills listadas?</Text>
+            <Picker
+              selectedValue={softSkill3}
+              onValueChange={(value, index) => setSoftSkill3(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione a skill" value="Unknown" />
+              <Picker.Item label="Inteligência Emocional" value="Inteligência Emocional" />
+              <Picker.Item label="Comunicação" value="Comunicação" />
+              <Picker.Item label="Gestão do tempo" value="Gestão do tempo" />
+              <Picker.Item label="Liderança" value="Liderança" />
+              <Picker.Item label="Flexibilidade e adaptabilidade" value="Flexibilidade e adaptabilidade" />
+              <Picker.Item label="Trabalho em equipe" value="Trabalho em equipe" />
+              <Picker.Item label="Espírito empreendedor" value="Espírito empreendedor" />
+              <Picker.Item label="Sem skill" value="Nenhuma" />
+            </Picker>
+            <Picker
+              selectedValue={softSkill3Level}
+              onValueChange={(value, index) => setSoftSkill3Level(value)}
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione qual seu nível de habilidade" value="Unknown" />
+              <Picker.Item label="Nível 1" value="1" />
+              <Picker.Item label="Nível 2" value="2" />
+              <Picker.Item label="Nível 3" value="3" />
+              <Picker.Item label="Nível 4" value="4" />
+              <Picker.Item label="Nível 5" value="5" />
+            </Picker>
+            <Pressable
+              style={styles.buttonOpen}
+              onPress={() => {
+                if (softSkill3 == "Unknown" || softSkill3Level == "Unknown") {
+                    Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
+                      {
+                        text: 'OK',
+                        style: 'ok',
+                      },
+                    ]);
+                  } else {
+                    setModalSoftSkill3Visible(false);
+                    Alert.alert('Cadastro concluído!', 'Você concluiu o registro e poderá utilizar o aplicativo.', [
+                      {
+                        text: 'Legal!',
+                        style: 'ok',
+                      },
+                    ]);
+                  }
+                }
+              }>
+              <Text style={styles.textStyle}>Concluir</Text>
             </Pressable>
           </View>
         </View>
