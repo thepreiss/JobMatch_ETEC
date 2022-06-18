@@ -10,8 +10,8 @@ export const BLACK = "#000000";
 export const ONLINE_STATUS = "#46A575";
 export const OFFLINE_STATUS = "#D04949";
 
-export const LIKE_ACTIONS = "#5cf01d";
-export const DISLIKE_ACTIONS = "#363636";
+export const LIKE_ACTIONS = "#2124c4";
+export const DISLIKE_ACTIONS = "#D04949";
 
 export const DIMENSION_WIDTH = Dimensions.get("window").width;
 export const DIMENSION_HEIGHT = Dimensions.get("window").height;

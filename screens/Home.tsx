@@ -7,6 +7,7 @@ import IMAGE_NOJOBS from "../assets/images/noJobs.jpg";
 import api from "../assets/services/api";
 import { AxiosResponse } from 'axios';
 import { DataT } from "../types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const Home = () => {
@@ -18,6 +19,16 @@ const Home = () => {
       setListCard(response.data);
     });
   }, []);
+
+ /* AsyncStorage.getItem("user", (err, result) => {
+      if (!err && result != null){
+        const data = JSON.parse(result);
+        AsyncStorage.setItem("user", JSON.stringify(persons));
+      } else {
+
+      }
+    }
+  ); */
 
   return (
       <ImageBackground
@@ -35,7 +46,7 @@ const Home = () => {
             <Card key="FirstOne">
               <CardItem
                 hasActions= {false}
-                name="Não há mais posições disponíveis. Atualize ou volte mais tarde :)"
+                name="Não há posições disponíveis. Aguarde a atualização ou volte mais tarde :)"
                 image={IMAGE_NOJOBS}
               />
             </Card>

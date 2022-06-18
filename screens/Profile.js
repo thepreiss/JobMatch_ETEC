@@ -10,8 +10,8 @@ import {
   Pressable,
   TextInput,
 } from "react-native";
-import { Icon, ProfileItem } from "../components";
-import styles, { WHITE } from "../assets/styles";
+import { ProfileItem } from "../components";
+import styles from "../assets/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 import {Restart} from 'fiction-expo-restart';
@@ -82,6 +82,7 @@ const Profile = () => {
   const [modalMoreSoftSkillsVisible, setModalMoreSoftSkillsVisible] = useState(false);
   const [modalSoftSkill2Visible, setModalSoftSkill2Visible] = useState(false);
   const [modalSoftSkill3Visible, setModalSoftSkill3Visible] = useState(false);
+  const [modalEndVisible, setModalEndVisible] = useState(false);
 
   const [name, setName] = useState();
   const [scholarity, setScholarity] = useState();
@@ -142,11 +143,11 @@ const Profile = () => {
         if (experience1 == "") {
           experience = "Sem experiência";
         } else {
-          experience = "" + experience1 + " - " + convertExperienceTime(experience1Time);
+          experience = "" + experience1 + " (" + convertExperienceTime(experience1Time) + ")";
           if (experience2 != null && experience2 != undefined) {
-            experience += "\n" + experience2 + " - " + convertExperienceTime(experience2Time);
+            experience += "\n" + experience2 + " (" + convertExperienceTime(experience2Time) + ")";
             if (experience3 != null && experience3 != undefined) {
-              experience += "\n" + experience3 + " - " + convertExperienceTime(experience3Time);
+              experience += "\n" + experience3 + " (" + convertExperienceTime(experience3Time) + ")";
             }
           }
         }
@@ -157,11 +158,11 @@ const Profile = () => {
         if (softSkill1 == "") {
           soft = "Sem softSkill";
         } else {
-          soft = "" + softSkill1 + " - " + convertSoftSkillLevel(softSkill1Level);
+          soft = "" + softSkill1 + " (" + convertSoftSkillLevel(softSkill1Level) + ")";
           if (softSkill2 != null && softSkill2 != undefined) {
-            soft += "\n" + softSkill2 + " - " + convertSoftSkillLevel(softSkill2Level);
+            soft += "\n" + softSkill2 + " (" + convertSoftSkillLevel(softSkill2Level) + ")";
             if (softSkill3 != null && softSkill3 != undefined) {
-              soft += "\n" + softSkill3 + " - " + convertSoftSkillLevel(softSkill3Level);
+              soft += "\n" + softSkill3 + " (" + convertSoftSkillLevel(softSkill3Level) + ")";
             }
           }
         } 
@@ -763,13 +764,7 @@ const Profile = () => {
               onPress={() => {
                   setStorageControl(true);
                   setModalMoreSoftSkillsVisible(false);
-                  Alert.alert('Cadastro concluído!', 'Você concluiu o registro e poderá utilizar o aplicativo.', [
-                    {
-                      text: 'Legal!',
-                      style: 'ok',
-                    },
-                  ]);
-                  Restart();
+                  setModalEndVisible(true);
                 }
               }>
               <Text style={styles.textStyle}>Não</Text>
@@ -883,14 +878,27 @@ const Profile = () => {
                   } else {
                     setModalSoftSkill3Visible(false);
                     setStorageControl(true);
-                    Alert.alert('Cadastro concluído!', 'Você concluiu o registro e poderá utilizar o aplicativo.', [
-                      {
-                        text: 'Legal!',
-                        style: 'ok',
-                      },
-                    ]);
-                    Restart();
+                    setModalEndVisible(true);
                   }
+                }
+              }>
+              <Text style={styles.textStyle}>Avançar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalEndVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Você concluiu o registro!</Text>
+            <Pressable
+              style={styles.buttonOpen}
+              onPress={() => {
+                  Restart();
                 }
               }>
               <Text style={styles.textStyle}>Concluir</Text>
@@ -900,19 +908,7 @@ const Profile = () => {
       </Modal>
 
       <ScrollView style={styles.containerProfile}>
-        <ImageBackground source={{uri: "https://images2.imgbox.com/7d/6a/ZkZefOT8_o.png"}} style={styles.photo}>
-          <View style={styles.top}>
-            <TouchableOpacity>
-              <Icon
-                name="chevron-back"
-                size={20}
-                color={WHITE}
-                style={styles.topIconLeft}
-              />
-            </TouchableOpacity>
-            
-          </View>
-        </ImageBackground>
+        <ImageBackground source={{uri: "https://images2.imgbox.com/7d/6a/ZkZefOT8_o.png"}} style={styles.photo} />
 
         <ProfileItem
           name={ data && (data.length > 0) ? data[0] : "Novo usuário" }
