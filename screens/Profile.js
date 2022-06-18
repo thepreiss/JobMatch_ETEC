@@ -536,7 +536,7 @@ const Profile = () => {
             <Pressable
               style={styles.buttonOpenGreen}
               onPress={() => {
-                setmodalMoreExperiencesVisible(false);
+                setModalMoreExperiencesVisible(false);
                   if(experience2 != undefined) {
                     setModalExperience3Visible(true);
                   } else {
@@ -714,12 +714,7 @@ const Profile = () => {
                   setSoftSkill1Level("");
                   setStorageControl(true);
                   setModalSoftSkill1Visible(false);
-                  Alert.alert('Cadastro concluído!', 'Você concluiu o registro e poderá utilizar o aplicativo.', [
-                    {
-                      text: 'Legal!',
-                      style: 'ok',
-                    },
-                  ]);
+                  setModalEndVisible(true);
                 } else if (softSkill1 == "Unknown" || softSkill1Level == "Unknown"){
                   Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
                     {

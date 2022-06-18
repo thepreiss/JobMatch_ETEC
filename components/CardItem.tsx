@@ -14,6 +14,7 @@ const CardItem = ({
   hasVariant,
   image,
   matches,
+  area,
   name,
 }: CardItemT) => {
   // Custom styling
@@ -51,29 +52,17 @@ const CardItem = ({
         </View>
       )}
 
-      {/* DESCRIPTION */}
-      <Text></Text>
-      <Text style={styles.descriptionCardItem}>
-          {description? "Área: "+ description : description}
-      </Text>
-
       {/* NAME */}
       <Text style={nameStyle}><Text style={ {fontWeight: "bold"} }>{name}</Text></Text>
 
+      {/* DESCRIPTION */}
+      <Text></Text>
+      <Text style={styles.descriptionCardItem}>
+          {area && description? "Área:\n"+ area + "\n\nDescrição:\n" + description : ""}
+      </Text>
+
       {/* ACTIONS */}
-      {hasActions && (
-        <View style={styles.actionsCardItem}>
-
-          <TouchableOpacity style={styles.button}>
-            <Icon name="heart" color={LIKE_ACTIONS} size={30} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <Icon name="close" color={DISLIKE_ACTIONS} size={30} />
-          </TouchableOpacity>
-
-        </View>
-      )}
+      {hasActions }
     </View>
   );
 };

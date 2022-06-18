@@ -71,6 +71,7 @@ export default StyleSheet.create({
     color: WHITE,
   },
   descriptionCardItem: {
+    paddingBottom: 50,
     color: GRAY,
     fontSize: 18,
     textAlign: "center",

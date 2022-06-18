@@ -5,6 +5,7 @@ export type CardItemT = {
   image?: any;
   matches?: string;
   name: string;
+  area?: string;
 };
 
 export type IconT = {
@@ -42,7 +43,7 @@ export type DataT = {
   name: string;
   match?: string;
   description?: string;
-  message?: string;
+  idArea?: string;
   landscapeLink: string;
   info1?: string;
   info2?: string;
