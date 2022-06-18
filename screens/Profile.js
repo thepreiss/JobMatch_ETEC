@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import { Icon, ProfileItem } from "../components";
 import styles, { WHITE } from "../assets/styles";
-import people from "../assets/data/persons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
+import {Restart} from 'fiction-expo-restart';
 
 function convertLanguageLevel(level) {
   switch (level) {
@@ -84,8 +84,8 @@ const Profile = () => {
   const [modalSoftSkill3Visible, setModalSoftSkill3Visible] = useState(false);
 
   const [name, setName] = useState();
-  const [scholarity, setScholarity] = useState('Unknown');
-  const [statusScholarity, setStatusScholarity] = useState('Unknown');
+  const [scholarity, setScholarity] = useState();
+  const [statusScholarity, setStatusScholarity] = useState();
   const [language1, setLanguage1] = useState();
   const [language1Level, setLanguage1Level] = useState();
   const [language2, setLanguage2] = useState();
@@ -104,21 +104,13 @@ const Profile = () => {
   const [softSkill2Level, setSoftSkill2Level] = useState();
   const [softSkill3, setSoftSkill3] = useState();
   const [softSkill3Level, setSoftSkill3Level] = useState();
-
-  let data = people[0];
+  const [data, setData] = useState();
+  const [storageControl, setStorageControl] = useState(false);
 
   AsyncStorage.getItem("user", (err, result) => {
     if (!err && result != null){
-      let storageData = JSON.parse(result);
-
-      data.name = storageData.name;
-      //data.image = result.image;
-      data.info1 = storageData.info1;
-      data.info2 = storageData.info2;
-      data.info3 = storageData.info3;
-      data.info4 = storageData.info4;
-    }
-    else if(!modalNomeVisible) {
+      setData(JSON.parse(result));
+    } else if(!modalNomeVisible) {
       if(!registerModalActive)
       {
         Alert.alert('Bem-Vindo!', 'Você poderá explorar após se cadastrar!', [
@@ -128,15 +120,54 @@ const Profile = () => {
             style: 'ok',
           },
         ]);
-      } else if (language1 != undefined && scholarity !== "Unknown" && experience1 !== undefined && experience1 !== "Unknown" && softSkill1 != "Unknown" && softSkill1 != undefined){
-        data.name = name;
-        //data.image = result.image;
-        data.info1 = "" + language1 + " (" + convertLanguageLevel(language1Level) + ")";        
-        data.info2 = "" + scholarity + " (" + convertScholarityStatus(statusScholarity) + ")";
-        data.info3 = "" + experience1 + " / " + convertExperienceTime(experience1Time);
-        data.info4 = "" + softSkill1 + " - " + convertSoftSkillLevel(softSkill1Level);
+      } else if (storageControl){
 
-        AsyncStorage.setItem("user", JSON.stringify(data));
+        let persons = [];
+
+        persons.push(name);
+
+        let language = "" + language1 + " (" + convertLanguageLevel(language1Level) + ")";
+        if (language2 != null && language2 != undefined) {
+          language += "\n" + language2 + " (" + convertLanguageLevel(language2Level) + ")";
+          if (language3 != null && language3 != undefined) {
+            language += "\n" + language3Level + " (" + convertLanguageLevel(language3Level) + ")";
+          }
+        }
+
+        persons.push(language);
+
+        persons.push("" + scholarity + " (" + convertScholarityStatus(statusScholarity) + ")");
+
+        let experience;
+        if (experience1 == "") {
+          experience = "Sem experiência";
+        } else {
+          experience = "" + experience1 + " - " + convertExperienceTime(experience1Time);
+          if (experience2 != null && experience2 != undefined) {
+            experience += "\n" + experience2 + " - " + convertExperienceTime(experience2Time);
+            if (experience3 != null && experience3 != undefined) {
+              experience += "\n" + experience3 + " - " + convertExperienceTime(experience3Time);
+            }
+          }
+        }
+
+        persons.push(experience);
+
+        let soft;
+        if (softSkill1 == "") {
+          soft = "Sem softSkill";
+        } else {
+          soft = "" + softSkill1 + " - " + convertSoftSkillLevel(softSkill1Level);
+          if (softSkill2 != null && softSkill2 != undefined) {
+            soft += "\n" + softSkill2 + " - " + convertSoftSkillLevel(softSkill2Level);
+            if (softSkill3 != null && softSkill3 != undefined) {
+              soft += "\n" + softSkill3 + " - " + convertSoftSkillLevel(softSkill3Level);
+            }
+          }
+        } 
+        persons.push(soft);
+
+        AsyncStorage.setItem("user", JSON.stringify(persons));
       }
     }
   });
@@ -454,7 +485,7 @@ const Profile = () => {
               <Picker.Item label="Operacional" value="Operacional" />
               <Picker.Item label="Serviços de TI" value="Serviços de TI" />
               <Picker.Item label="Ensino" value="Ensino" />
-              <Picker.Item label="Sem experiência" value="Nenhuma" />
+              <Picker.Item label="Sem experiência" value="" />
             </Picker>
             <Picker
               selectedValue={experience1Time}
@@ -471,8 +502,9 @@ const Profile = () => {
             <Pressable
               style={styles.buttonOpen}
               onPress={() => {
-                if(experience1 == "Nenhuma") {
+                if(experience1 == "") {
                   setModalExperience1Visible(false);
+                  setExperience1Time("");
                   setModalSoftSkill1Visible(true);
                 } else if (experience1 == "Unknown" || experience1Time == "Unknown") {
                     Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
@@ -659,7 +691,7 @@ const Profile = () => {
               <Picker.Item label="Flexibilidade e adaptabilidade" value="Flexibilidade e adaptabilidade" />
               <Picker.Item label="Trabalho em equipe" value="Trabalho em equipe" />
               <Picker.Item label="Espírito empreendedor" value="Espírito empreendedor" />
-              <Picker.Item label="Sem skill" value="Nenhuma" />
+              <Picker.Item label="Sem skill" value="" />
             </Picker>
             <Picker
               selectedValue={softSkill1Level}
@@ -677,20 +709,30 @@ const Profile = () => {
             <Pressable
               style={styles.buttonOpen}
               onPress={() => {
-                if (softSkill1 == "Unknown" || softSkill1Level == "Unknown") {
-                    Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
-                      {
-                        text: 'OK',
-                        style: 'ok',
-                      },
-                    ]);
-                  } else {
-                    setModalSoftSkill1Visible(false);
-                    setModalMoreSoftSkillsVisible(true);
-                  }
+                if (softSkill1 == "") {
+                  setSoftSkill1Level("");
+                  setStorageControl(true);
+                  setModalSoftSkill1Visible(false);
+                  Alert.alert('Cadastro concluído!', 'Você concluiu o registro e poderá utilizar o aplicativo.', [
+                    {
+                      text: 'Legal!',
+                      style: 'ok',
+                    },
+                  ]);
+                } else if (softSkill1 == "Unknown" || softSkill1Level == "Unknown"){
+                  Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
+                    {
+                      text: 'OK',
+                      style: 'ok',
+                    },
+                  ]);
+                } else {
+                  setModalSoftSkill1Visible(false);
+                  setModalMoreSoftSkillsVisible(true);
                 }
-              }>
-              <Text style={styles.textStyle}>Avançar</Text>
+              }
+            }>
+            <Text style={styles.textStyle}>Avançar</Text>
             </Pressable>
           </View>
         </View>
@@ -719,6 +761,7 @@ const Profile = () => {
             <Pressable
               style={styles.buttonOpenRed}
               onPress={() => {
+                  setStorageControl(true);
                   setModalMoreSoftSkillsVisible(false);
                   Alert.alert('Cadastro concluído!', 'Você concluiu o registro e poderá utilizar o aplicativo.', [
                     {
@@ -726,6 +769,7 @@ const Profile = () => {
                       style: 'ok',
                     },
                   ]);
+                  Restart();
                 }
               }>
               <Text style={styles.textStyle}>Não</Text>
@@ -755,7 +799,6 @@ const Profile = () => {
               <Picker.Item label="Flexibilidade e adaptabilidade" value="Flexibilidade e adaptabilidade" />
               <Picker.Item label="Trabalho em equipe" value="Trabalho em equipe" />
               <Picker.Item label="Espírito empreendedor" value="Espírito empreendedor" />
-              <Picker.Item label="Sem skill" value="Nenhuma" />
             </Picker>
             <Picker
               selectedValue={softSkill2Level}
@@ -813,7 +856,6 @@ const Profile = () => {
               <Picker.Item label="Flexibilidade e adaptabilidade" value="Flexibilidade e adaptabilidade" />
               <Picker.Item label="Trabalho em equipe" value="Trabalho em equipe" />
               <Picker.Item label="Espírito empreendedor" value="Espírito empreendedor" />
-              <Picker.Item label="Sem skill" value="Nenhuma" />
             </Picker>
             <Picker
               selectedValue={softSkill3Level}
@@ -840,12 +882,14 @@ const Profile = () => {
                     ]);
                   } else {
                     setModalSoftSkill3Visible(false);
+                    setStorageControl(true);
                     Alert.alert('Cadastro concluído!', 'Você concluiu o registro e poderá utilizar o aplicativo.', [
                       {
                         text: 'Legal!',
                         style: 'ok',
                       },
                     ]);
+                    Restart();
                   }
                 }
               }>
@@ -856,7 +900,7 @@ const Profile = () => {
       </Modal>
 
       <ScrollView style={styles.containerProfile}>
-        <ImageBackground source={{uri: data.image}} style={styles.photo}>
+        <ImageBackground source={{uri: "https://images2.imgbox.com/7d/6a/ZkZefOT8_o.png"}} style={styles.photo}>
           <View style={styles.top}>
             <TouchableOpacity>
               <Icon
@@ -871,11 +915,11 @@ const Profile = () => {
         </ImageBackground>
 
         <ProfileItem
-          name={data.name}
-          info1={data.info1}
-          info2={data.info2}
-          info3={data.info3}
-          info4={data.info4}
+          name={ data && (data.length > 0) ? data[0] : "Novo usuário" }
+          info1={ data && (data.length > 0) ? data[1] : "Novo usuário" }
+          info2={ data && (data.length > 0) ? data[2] : "Novo usuário" }
+          info3={ data && (data.length > 0) ? data[3] : "Novo usuário" }
+          info4={ data && (data.length > 0) ? data[4] : "Novo usuário" }
         />
 
       </ScrollView>
