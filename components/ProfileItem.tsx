@@ -47,12 +47,6 @@ const ProfileItem = ({
       <Text style={styles.infoContent}>{info4}</Text>
     </View>
 
-    <View style={styles.info}>
-      <Text style={styles.iconProfile}>
-        <Icon name="analytics-outline" size={16} color={DARK_GRAY} />
-      </Text>
-      <Text style={styles.infoContent}>{info5}</Text>
-    </View>
   </View>
 );
 

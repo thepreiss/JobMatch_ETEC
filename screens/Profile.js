@@ -16,8 +16,54 @@ import people from "../assets/data/persons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Picker } from "@react-native-picker/picker";
 
-function register() {
+function convertLanguageLevel(level) {
+  switch (level) {
+    case "0":
+      return "Básico"
+    case "1":
+      return "Intermediário"
+    case "2":
+      return "Avançado"
+    default:
+      return "Fluente"
+  }
+}
 
+function convertScholarityStatus(status) {
+  switch (status) {
+    case "0":
+      return "Incompleto"
+    case "1":
+      return "Completo"
+  }
+}
+
+function convertExperienceTime(time) {
+  switch (time) {
+    case "1":
+      return "Até um ano"
+    case "3":
+      return "Até 3 anos"
+    case "5":
+      return "Até 5 anos"
+    default:
+      return "Mais de 5 anos"
+  }
+}
+
+function convertSoftSkillLevel(level) {
+  switch (level) {
+    case "1":
+      return "Nível 1"
+    case "2":
+      return "Nível 2"
+    case "3":
+      return "Nível 3"
+    case "4":
+      return "Nível 4"
+    default:
+      return "Nível 5"
+  }
 }
 
 const Profile = () => {
@@ -36,7 +82,6 @@ const Profile = () => {
   const [modalMoreSoftSkillsVisible, setModalMoreSoftSkillsVisible] = useState(false);
   const [modalSoftSkill2Visible, setModalSoftSkill2Visible] = useState(false);
   const [modalSoftSkill3Visible, setModalSoftSkill3Visible] = useState(false);
-  const [modalEndVisible, setModalEndVisible] = useState(false);
 
   const [name, setName] = useState();
   const [scholarity, setScholarity] = useState('Unknown');
@@ -60,18 +105,18 @@ const Profile = () => {
   const [softSkill3, setSoftSkill3] = useState();
   const [softSkill3Level, setSoftSkill3Level] = useState();
 
-  const data = people[0];
-  AsyncStorage.setItem('initialPeople', JSON.stringify(data));
+  let data = people[0];
 
-  AsyncStorage.getItem('registred', (err, result) => {
+  AsyncStorage.getItem("user", (err, result) => {
     if (!err && result != null){
-      data.name = result.name;
+      let storageData = JSON.parse(result);
+
+      data.name = storageData.name;
       //data.image = result.image;
-      data.info1 = result.info1;
-      data.info2 = result.info2;
-      data.info3 = result.info3;
-      data.info4 = result.info4;
-      data.info5 = result.info5;
+      data.info1 = storageData.info1;
+      data.info2 = storageData.info2;
+      data.info3 = storageData.info3;
+      data.info4 = storageData.info4;
     }
     else if(!modalNomeVisible) {
       if(!registerModalActive)
@@ -83,6 +128,15 @@ const Profile = () => {
             style: 'ok',
           },
         ]);
+      } else if (language1 != undefined && scholarity !== "Unknown" && experience1 !== undefined && experience1 !== "Unknown" && softSkill1 != "Unknown" && softSkill1 != undefined){
+        data.name = name;
+        //data.image = result.image;
+        data.info1 = "" + language1 + " (" + convertLanguageLevel(language1Level) + ")";        
+        data.info2 = "" + scholarity + " (" + convertScholarityStatus(statusScholarity) + ")";
+        data.info3 = "" + experience1 + " / " + convertExperienceTime(experience1Time);
+        data.info4 = "" + softSkill1 + " - " + convertSoftSkillLevel(softSkill1Level);
+
+        AsyncStorage.setItem("user", JSON.stringify(data));
       }
     }
   });
@@ -417,7 +471,10 @@ const Profile = () => {
             <Pressable
               style={styles.buttonOpen}
               onPress={() => {
-                if (experience1 == "Unknown" || experience1Time == "Unknown") {
+                if(experience1 == "Nenhuma") {
+                  setModalExperience1Visible(false);
+                  setModalSoftSkill1Visible(true);
+                } else if (experience1 == "Unknown" || experience1Time == "Unknown") {
                     Alert.alert('Dado não selecionado', 'Você precisa fornecer os dados solicitados!', [
                       {
                         text: 'OK',
@@ -819,7 +876,6 @@ const Profile = () => {
           info2={data.info2}
           info3={data.info3}
           info4={data.info4}
-          info5={data.info5}
         />
 
       </ScrollView>
