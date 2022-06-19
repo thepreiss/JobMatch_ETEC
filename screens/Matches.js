@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Text,
   TouchableOpacity,
   ImageBackground,
   View,
   FlatList,
+  Modal,
+  Pressable,
 } from "react-native";
 import { Message } from "../components";
 import styles from "../assets/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from '@react-navigation/native';
+import calcMatch from "../assets/actions/matchCalc";
 
 let list = 0;
 
@@ -29,6 +32,7 @@ let standart = [
 const Matches = () => {
 
   const [reloadControl, setReloadControl] = useState(1);
+  const [modalMatchData, setmodalMatchData] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -72,6 +76,14 @@ const Matches = () => {
     })
   );
 
+  function cardClick(id) {
+    console.log("Pressed: " + id);
+    if(id != undefined) {
+      console.log("Result: " + calcMatch(id));
+      setmodalMatchData(true);
+    }
+  }
+
   function Card (){
     return (
     <FlatList
@@ -79,7 +91,7 @@ const Matches = () => {
         keyExtractor={(item, index) => index.toString()}
         extraData={list}
         renderItem={({ item }) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={ () => cardClick(item.idPosition) }>
             <Message
               image={{uri:item.landscapeLink}}
               name={item.name}
@@ -91,12 +103,38 @@ const Matches = () => {
     )
   }
 
+  function ResultModal () {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalMatchData}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Aqui vai aparecer os dados</Text>
+            <Pressable
+              style={styles.buttonOpen}
+              onPress={() => {
+                  setmodalMatchData(false);
+                }
+              }>
+              <Text style={styles.textStyle}>Fechar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+    )
+  }
+
   return (
 
   <ImageBackground
     source={require("../assets/images/bg.png")}
     style={styles.bg}
   >
+
+    <ResultModal/>
+
     <View style={styles.containerMessages}>
       <View style={styles.top}>
         <Text style={styles.title}>Matches</Text>

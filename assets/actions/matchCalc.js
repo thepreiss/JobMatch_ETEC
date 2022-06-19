@@ -1,143 +1,245 @@
-import { useEffect, useState } from "react";
 import api from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const [profile, setProfile] = useState();
-
-AsyncStorage.getItem("user", (err, result) => {
-  if (!err && result != null){
-    setProfile(JSON.parse(result));
+function convertLanguage(language) {
+  switch (language) {
+    case "Inglês":
+      return 1;
+    case "Espanhol":
+      return 2;
+    case "Francês":
+      return 3;
+    case "Alemão":
+      return 4;
+    case "Mandarim":
+      return 5;
+    case "Português":
+      return 6;
+    default:
+      return "Não cadastrado";
   }
-});
+}
 
-let compareData;
+function convertLanguageLvl(languageLvl) {
+  switch (languageLvl) {
+    case "Básico":
+      return 1;
+    case "Intermediário":
+      return 2;
+    case "Avançado":
+      return 3;
+    case "Fluente":
+      return 4;
+    default:
+      return "Não cadastrado";
+  }
+}
 
-function calcMatch(id) {
+function convertScholarity(scholarity) {
+  switch (scholarity) {
+    case "Ensinofundamental":
+      return 1;
+    case "Ensinomédio":
+      return 2;
+    case "Ensinotécnico":
+      return 3;
+    case "Graduação":
+      return 4;
+    case "Pós-graduação":
+      return 5;
+    default:
+      return "Não cadastrado";
+  }
+}
 
-    useEffect(() => {
-        api.post("/getRequiredLanguage", {
-          idPosition: id,
-        }).then((response) => {
-          api.post("/getLanguage", {
-            idLanguage: response.data.Language_idLanguage,
-          }).then((response) => {
-            compareData.LanguageTitle = response.data.title;
-            compareData.LanguageLevel = response.data.level;
-          });
-        });
-        api.post("/getRequiredSoftSkill", {
-          idPosition: id,
-        }).then((response) => {
-          api.post("/getSoftSkill", {
-            idSoftSkill: response.data.SoftSkill_idSoftSkill,
-          }).then((response) => {
-            compareData.softSkillTitle = response.data.title;
-            compareData.softSkillLevel = response.data.level;
-          });
-        });
-        api.post("/getRequiredExperience", {
-          idPosition: id,
-        }).then((response) => {
-          api.post("/getExperience", {
-            idExperience: response.data.Experience_idExperience,
-          }).then((response) => {
-            compareData.experienceYears = response.data.years;
-            api.post("/getArea", {
-              idArea: response.data.idArea,
-            }).then((response) => {
-              compareData.experienceArea = response.data.name;
-            });
-          });
-        });
-      }, []);
+function convertScholarityLvl(scholarityLvl) {
+  switch (scholarityLvl) {
+    case "Incompleto":
+      return 1;
+    case "Completo":
+      return 2;
+    default:
+      return "Não cadastrado";
+  }
+}
 
-    if(profile != undefined)
-    {
-      let matchValue;
+function convertExperience(experience) {
+  switch (experience) {
+    case "Administração":
+      return 1;
+    case "DesenvolvimentodeSoftware":
+      return 2;
+    case "RecursosHumanos":
+      return 3;
+    case "Gestãodepessoas":
+      return 4;
+    case "Operacional":
+      return 5;
+    case "ServiçosdeTI":
+      return 6;
+    case "Ensino":
+      return 7;
+    default:
+      return "Não cadastrado";
+  }
+}
 
-      let text;
+function convertExperienceLvl(experienceLvl) {
+  switch (experienceLvl) {
+    case "Atéumano":
+      return 1;
+    case "Até3anos":
+      return 2;
+    case "Até5anos":
+      return 3;
+    case "Maisde5anos":
+      return 4;
+    default:
+      return "Não cadastrado";
+  }
+}
 
-      let language;
-      let lvlLanguage;
-      let paragraph = profile[1].split(/\r?\n/);
+function convertSoftSkill(softskill) {
+  switch (softskill) {
+    case "InteligênciaEmocional":
+      return 1;
+    case "Comunicação":
+      return 2;
+    case "Gestãodotempo":
+      return 3;
+    case "Liderança":
+      return 4;
+    case "Flexibilidadeeadaptabilidade":
+      return 5;
+    case "Trabalhoemequipe":
+      return 6;
+    case "Espíritoempreendedor":
+      return 7;
+    default:
+      return "Não cadastrado";
+  }
+}
 
-      paragraph.forEach(element => {
-        text = element.replace(/\s/g, '').Split('(');
-        language.push(text[0]);
-        lvlLanguage.push(text[1].replace(')', ''));
-      });
+function convertSoftSkillLevel(softskillLvl) {
+  switch (softskillLvl) {
+    case "Nível1":
+      return 1;
+    case "Nível2":
+      return 2;
+    case "Nível3":
+      return 3;
+    case "Nível4":
+      return 4;
+    case "Nível5":
+      return 5;
+    default:
+      return "Não cadastrado";
+  }
+}
 
-      text = profile[2].replace(/\s/g, '').Split('(');
-      const scholarity = text[0];
-      const scholarityStatus = text[1].replace(')', '')
+async function calcMatch(id) {
+  let profile;
+  let matchValue = 0;
 
-      let experience;
-      let lvlExperience;
-      paragraph = profile[3].split(/\r?\n/);
+  await AsyncStorage.getItem("user", (err, result) => {
+  if (!err && result != null){
+    profile = JSON.parse(result);
+  }
+  });
 
-      paragraph.forEach(element => {
-        text = element.replace(/\s/g, '').Split('(');
-        experience.push(text[0]);
-        lvlExperience.push(text[1].replace(')', ''));
-      });
+  if(profile != undefined)
+  {
 
-      let softskill;
-      let lvlSoftSkill;
-      paragraph = profile[4].split(/\r?\n/);
+    let text;
 
-      paragraph.forEach(element => {
-        text = element.replace(/\s/g, '').Split('(');
-        softskill.push(text[0]);
-        lvlSoftSkill.push(text[1].replace(')', ''));
-      });
-      
-      language.forEach(element => {
-        if (element.search(compareData.LanguageTitle) > -1) {
-          matchValue += 12.5;
-        }
-      });
+    let language = [];
+    let lvlLanguage = [];
+    let paragraph = profile[1].split(/\r?\n/);
 
-      LanguageLevel.forEach(element => {
-        if (element.search(compareData.LanguageLevel) > -1) {
-          matchValue += 12.5;
-        }
-      });
+    paragraph.forEach(element => {
+      text = element.replace(/\s/g, '').split('(');
+      language.push(text[0]);
+      lvlLanguage.push(text[1].replace(')', ''));
+    });
 
-      experience.forEach(element => {
-        if (element.search(compareData.experienceArea) > -1) {
-          matchValue += 12.5;
-        }
-      }); 
-      
-      lvlExperience.forEach(element => {
-        if (element.search(compareData.experienceYears) > -1) {
-          matchValue += 12.5;
-        }
-      });
+    text = profile[2].replace(/\s/g, '').split('(');
+    const scholarity = text[0];
+    const scholarityStatus = text[1].replace(')', '')
 
-      softskill.forEach(element => {
-        if (element.search(compareData.softSkillTitle) > -1) {
-          matchValue += 12.5;
-        }
-      });
+    let experience = [];
+    let lvlExperience = [];
+    paragraph = profile[3].split(/\r?\n/);
 
-      softSkillLevel.forEach(element => {
-        if (element.search(compareData.softSkillTitle) > -1) {
-          matchValue += 12.5;
-        }
-      });
+    paragraph.forEach(element => {
+      text = element.replace(/\s/g, '').split('(');
+      experience.push(text[0]);
+      lvlExperience.push(text[1].replace(')', ''));
+    });
 
-      if(scholarity.equals(compareData.scholarityTitle)) {
-        matchValue += 12.5;
+    let softskill = [];
+    let lvlSoftSkill = [];
+    paragraph = profile[4].split(/\r?\n/);
+
+    paragraph.forEach(element => {
+      text = element.replace(/\s/g, '').split('(');
+      softskill.push(text[0]);
+      lvlSoftSkill.push(text[1].replace(')', ''));
+    });
+  
+    let cLanguage = [];
+    language.forEach(element => {
+      cLanguage.push(convertLanguage(element));
+    });
+  
+    let cLanguageLvl = [];
+    lvlLanguage.forEach(element => {
+      cLanguageLvl.push(convertLanguageLvl(element));
+    });
+  
+    let cScholarity = convertScholarity(scholarity);
+    let cScholarityLvl = convertScholarityLvl(scholarityStatus);
+
+    let cExperience = [];
+    experience.forEach(element => {
+      cExperience.push(convertExperience(element));
+    });
+
+    let cExperienceLvl = [];
+    lvlExperience.forEach(element => {
+      cExperienceLvl.push(convertExperienceLvl(element));
+    });
+
+    let cSoftSkill = [];
+    softskill.forEach(element => {
+      cSoftSkill.push(convertSoftSkill(element));
+    });
+
+    let cSoftSkillLvl = [];
+    lvlSoftSkill.forEach(element => {
+      cSoftSkillLvl.push(convertSoftSkillLevel(element));
+    });
+
+    const transactionCalc = [
+      {
+        positionId: id,
+        language: cLanguage,
+        laguageLvl: cLanguageLvl,
+        scholarity: cScholarity,
+        scholarityLvl: cScholarityLvl,
+        experience: cExperience,
+        experienceLvl: cExperienceLvl,
+        softskill: cSoftSkill,
+        softskillLvl: cSoftSkillLvl,
       }
+    ];
 
-      if(scholarityStatus.equals(compareData.scholarityLevel)) {
-        matchValue += 12.5;
-      }
+    //console.log("Montado o retorno: " + transactionCalc[0].positionId);
 
-      return matchValue;
-    }
-    return 0.0;
+    return matchValue;
+  
+  };
+
+  return matchValue;
 }
 
 export default calcMatch;
