@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -9,15 +9,22 @@ import {
   Pressable,
 } from "react-native";
 import { Message } from "../components";
-import styles from "../assets/styles";
+import styles, {
+  WHITE,
+} from "../assets/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from '@react-navigation/native';
 import calcMatch from "../assets/actions/matchCalc";
+import { Video, AVPlaybackStatus } from 'expo-av';
+import Icon from "../components/Icon";
 
 let list = 0;
 
 let control = 0;
 
+let matchValue = 0;
+
+let improve = "";
 
 let standart = [
   {
@@ -30,6 +37,9 @@ let standart = [
 ];
 
 const Matches = () => {
+
+  const video = React.useRef(null);
+  const [status, setStatus] = React.useState({});
 
   const [reloadControl, setReloadControl] = useState(1);
   const [modalMatchData, setmodalMatchData] = useState(false);
@@ -79,7 +89,9 @@ const Matches = () => {
   function cardClick(id) {
     console.log("Pressed: " + id);
     if(id != undefined) {
-      console.log("Result: " + calcMatch(id));
+      //const result = calcMatch(id);
+      //improve = whereImprove(result.work);
+      //matchValue = result.match;
       setmodalMatchData(true);
     }
   }
@@ -103,6 +115,32 @@ const Matches = () => {
     )
   }
 
+  function whereImprove (work) {
+    let message = "\n";
+    /*if (work.find("S")) {
+      message += "Seu nível de escolaridade não é compatível com a vaga.\n";
+    }
+    if (work.find("L")) {
+      message += "Você não possui o idioma compatível com a vaga.\n";
+    }
+    if (work.find("Ll")) {
+      message += "Você não possui nível de idioma compatível com a vaga.\n";
+    }
+    if (work.find("X")) {
+      message += "Você não possui experiência compatível com a vaga.\n";
+    }
+    if (work.find("Xl")) {
+      message += "Você possui o tempo de experiência compatível com a vaga.\n";
+    }
+    if (work.find("K")) {
+      message += "Você não possui a softkill compatível com a vaga.\n";
+    }
+    if (work.find("Kl")) {
+      message += "Você não o nível de softkill ideal para a vaga.\n";
+    }*/
+    return message;
+  }
+
   function ResultModal () {
     return (
       <Modal
@@ -111,7 +149,31 @@ const Matches = () => {
         visible={modalMatchData}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Aqui vai aparecer os dados</Text>
+            <View style={styles.matchesCardItem}>
+              <Text style={styles.matchesTextCardItem}>
+                <Icon name="heart" color={WHITE} size={13} /> 80% Compatível no total
+              </Text>
+            </View>
+            <Text style={styles.modalText}>
+              - 100% na escolaridade;{'\n'}
+              - 0% no idioma: Requer o idioma alemão;{'\n'}
+              - 100% na experiência;{'\n'}
+              - 100% em SoftSkill;
+            </Text>
+            <Text style={styles.modalText}>Recomendação de podcast:</Text>
+            <View>
+            <Video
+              style={styles.video}
+              source={{
+                uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+              }}
+              useNativeControls
+              resizeMode="contain"
+            />
+            </View>
+            <TouchableOpacity>
+            <Text style={styles.textStyle}>Fechar</Text>
+          </TouchableOpacity>
             <Pressable
               style={styles.buttonOpen}
               onPress={() => {

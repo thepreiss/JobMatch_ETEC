@@ -18,6 +18,12 @@ export const DIMENSION_HEIGHT = Dimensions.get("window").height;
 
 export default StyleSheet.create({
 
+  video: {
+    alignSelf: 'center',
+    width: 320,
+    height: 200,
+  },
+
   picker: {
     marginVertical: 30,
     width: 300,
