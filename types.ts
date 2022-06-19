@@ -6,6 +6,7 @@ export type CardItemT = {
   matches?: string;
   name: string;
   area?: string;
+  id?: number;
 };
 
 export type IconT = {
@@ -44,12 +45,15 @@ export type DataT = {
   match?: string;
   description?: string;
   idArea?: string;
+  area?: string;
   landscapeLink: string;
   info1?: string;
   info2?: string;
   info3?: string;
   info4?: string;
   info5?: string;
+  message?: string;
+  image?: string;
 };
 
 export type DataP = {
@@ -77,4 +81,17 @@ export type DataC = {
   info3?: string;
   info4?: string;
   info5?: string;
+};
+
+export type DataA = {
+  idPosition?: string;
+  scholarityTitle?: string;
+  scholarityLevel?: string;
+  LanguageTitle?: string;
+  LanguageLevel?: string;
+  experienceArea?: string;
+  experienceYears?: string;
+  salaryRange?: string;
+  softSkillTitle?: string;
+  softSkillLevel?: string;
 };

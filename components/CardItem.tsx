@@ -1,10 +1,8 @@
-import React from "react";
-import { Text, View, Image, Dimensions, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import { Text, View, Image, Dimensions } from "react-native";
 import Icon from "./Icon";
 import { CardItemT } from "../types";
 import styles, {
-  DISLIKE_ACTIONS,
-  LIKE_ACTIONS,
   WHITE,
 } from "../assets/styles";
 
@@ -13,8 +11,8 @@ const CardItem = ({
   hasActions,
   hasVariant,
   image,
-  matches,
   area,
+  matches,
   name,
 }: CardItemT) => {
   // Custom styling
@@ -36,7 +34,7 @@ const CardItem = ({
       color: "#363636",
       fontSize: hasVariant ? 15 : 22,
     },
-  ];
+  ];  
 
   return (
     <View style={styles.containerCardItem}>

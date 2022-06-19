@@ -23,6 +23,7 @@ const Home = () => {
 
   useEffect(() => {
     api.get("/getCards").then((response: AxiosResponse) => {
+      AsyncStorage.setItem("AllJobs", JSON.stringify(response));
       const reorganize = response.data;
       if (jobs != null) {
           jobs.forEach(element => {
@@ -78,6 +79,7 @@ const Home = () => {
                 jobs.push(job.name);
                 AsyncStorage.setItem("pastJob", JSON.stringify(jobs));
                 AsyncStorage.setItem("liked", JSON.stringify(jobs));
+                AsyncStorage.setItem("reload", JSON.stringify(true));
                 console.log("LIKE: " + job.name);
               }}
               onSwipedLeft={() => {
@@ -93,6 +95,7 @@ const Home = () => {
                   description={job.description}
                   matches={job.match}
                   area={job.idArea}
+                  id={job.idPosition}
                 />
               </Card>
             ))}
