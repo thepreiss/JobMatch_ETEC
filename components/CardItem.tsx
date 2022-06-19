@@ -6,6 +6,29 @@ import styles, {
   WHITE,
 } from "../assets/styles";
 
+function convertAreaCode(idArea: string) {
+  const check = parseInt(idArea);
+  switch (check) {
+    case 1:
+      return "Administração";
+    case 2:
+      return "Desenvolvimento de Software";
+    case 3:
+      return "Recursos Humanos";
+    case 4:
+      return "Gestão de pessoas";
+    case 5:
+      return "Operacional";
+    case 6:
+      return "Serviços de TI";
+    case 7:
+      return "Ensino";
+    default:
+      console.log("Veio: " + idArea);
+      return "Não cadastrado";
+  }
+}
+
 const CardItem = ({
   description,
   hasActions,
@@ -56,7 +79,7 @@ const CardItem = ({
       {/* DESCRIPTION */}
       <Text></Text>
       <Text style={styles.descriptionCardItem}>
-          {area && description? "Área:\n"+ area + "\n\nDescrição:\n" + description : ""}
+          {area && description? "Área:\n"+ convertAreaCode(area) + "\n\nDescrição:\n" + description : ""}
       </Text>
 
       {/* ACTIONS */}
