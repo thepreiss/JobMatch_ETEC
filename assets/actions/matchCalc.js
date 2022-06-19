@@ -233,13 +233,14 @@ async function calcMatch(id) {
       }
     ];
 
-    //console.log("Montado o retorno: " + transactionCalc[0].positionId);
+    api.get("/calcMatch").then((response) => {
+      return JSON.parse(response);
+    });
 
-    return matchValue;
-  
+    //console.log("Montado o retorno: " + transactionCalc[0].positionId);  
   };
 
-  return matchValue;
+  return 0;
 }
 
 export default calcMatch;
