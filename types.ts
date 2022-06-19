@@ -7,6 +7,7 @@ export type CardItemT = {
   name: string;
   area?: string;
   id?: number;
+  idSalaryRange?: number;
 };
 
 export type IconT = {
@@ -54,6 +55,7 @@ export type DataT = {
   info5?: string;
   message?: string;
   image?: string;
+  idSalaryRange?: number;
 };
 
 export type DataP = {
@@ -91,7 +93,7 @@ export type DataA = {
   LanguageLevel?: string;
   experienceArea?: string;
   experienceYears?: string;
-  salaryRange?: string;
+  salaryRange?: number;
   softSkillTitle?: string;
   softSkillLevel?: string;
 };
