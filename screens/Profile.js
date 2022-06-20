@@ -902,7 +902,7 @@ const Profile = () => {
       </Modal>
 
       <ScrollView style={styles.containerProfile}>
-        <ImageBackground source={{uri: "https://images2.imgbox.com/7d/6a/ZkZefOT8_o.png"}} style={styles.photo} />
+        <ImageBackground source={require('../assets/profile-background.png')} style={styles.photo} />
 
         <ProfileItem
           name={ data && (data.length > 0) ? data[0] : "Novo usuário" }
