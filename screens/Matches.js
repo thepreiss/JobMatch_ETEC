@@ -165,7 +165,7 @@ const Matches = () => {
             <Video
               style={styles.video}
               source={{
-                uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                uri: 'https://jobmatch.blob.core.windows.net/asset-dc58d461-979c-41f3-99ef-d4fedd0924e3/Idiomas-Editado.m4v',
               }}
               useNativeControls
               resizeMode="contain"
